@@ -12,13 +12,17 @@ type User struct {
 	gorm.Model
 	Username string `gorm:"size:255;not null;unique" json:"username"`
 	Password string `gorm:"size:100;not null" json:"password"`
-	RoleID   int
 	Role     Role
 }
 
 // Hash password with bcrypt
 func Hash(pw string) ([]byte, error) {
 	return bcrypt.GenerateFromPassword([]byte(pw), bcrypt.DefaultCost)
+}
+
+// CheckPassword ...
+func CheckPassword(hashedPw, pw string) error {
+	return bcrypt.CompareHashAndPassword([]byte(hashedPw), []byte(pw))
 }
 
 // BeforeSave creates a hash before save user password
