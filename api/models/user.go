@@ -12,7 +12,7 @@ type User struct {
 	gorm.Model
 	Username string `gorm:"size:255;not null;unique" json:"username"`
 	Password string `gorm:"size:100;not null" json:"password"`
-	Role     Role
+	Role     Role   `json:"role,omitempty"`
 }
 
 // Hash password with bcrypt
