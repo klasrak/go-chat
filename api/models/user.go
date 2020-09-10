@@ -65,3 +65,27 @@ func (u *User) FindUserByID(db *gorm.DB, id int) (*User, error) {
 
 	return u, nil
 }
+
+// GetUserRoleByUserID gets user role by id
+func (u *User) GetUserRoleByUserID(db *gorm.DB, id int) (*Role, error) {
+
+	err := db.Model(User{}).Where("id = ?", id).Take(&u).Error
+
+	if err != nil {
+		return &Role{}, err
+	}
+
+	if gorm.IsRecordNotFoundError(err) {
+		return &Role{}, errors.New("Cannot find user role")
+	}
+
+	return &u.Role, nil
+}
+
+// IsAdmin ...
+func IsAdmin(u *User) bool {
+	if u.Role.AccessLevel == 5 {
+		return true
+	}
+	return false
+}
