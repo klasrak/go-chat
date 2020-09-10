@@ -9,10 +9,11 @@ import (
 
 // Client represents Redis client
 type Client struct {
-	c *redis.Client
+	Cl *redis.Client
 }
 
-func new(addr, pw string, port int) (*Client, error) {
+// NewRedisClient creates a new Redis client
+func NewRedisClient(addr, pw string, port int) (*Client, error) {
 	opts := redis.Options{
 		Addr: addr + ":" + strconv.Itoa(port),
 	}
